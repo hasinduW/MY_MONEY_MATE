@@ -4,12 +4,11 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const incomeRoutes = require("./routes/incomeRoutes");
+const expenseRoutes = require("./routes/expenseRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 const path = require("path"); // ✅ Correct path module import
 
 const app = express();
-
-// ✅ Connect to MongoDB
-connectDB();
 
 // ✅ Middleware
 app.use(cors({
@@ -21,9 +20,14 @@ app.use(cors({
 app.use(express.json()); // ✅ Parses JSON data
 app.use(express.urlencoded({ extended: true })); // ✅ Parses URL-encoded data
 
+// ✅ Connect to MongoDB
+connectDB();
+
 // ✅ Correct Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes); // ✅ FIXED: Correct income routes
+app.use("/api/v1/expense", expenseRoutes);
+app.use("/api/v1/dashboard", dashboardRoutes);
 
 // Serve the upload folder as static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
