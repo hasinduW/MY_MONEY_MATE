@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import SideMenu from "./SideMenu";
+import { UserContext } from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 
 const Navbar = ({ activeMenu }) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
