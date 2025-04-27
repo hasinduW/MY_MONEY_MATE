@@ -6,10 +6,15 @@ import {
   Navigate
 } from "react-router-dom";
 
+import Login from "./pages/Auth/Login";
+import SignUp from "./pages/Auth/SignUp";
 import Income from "./pages/Dashboard/Income";
 import Home from "./pages/Dashboard/Home";
 import Expense from "./pages/Dashboard/Expense";
 import { Toaster } from "react-hot-toast";
+import PricingPage from './pages/subscription/PricingPage';
+import './styles/pricing.css';
+import CheckoutPage from './pages/subscription/CheckoutPage';
 
 const App = () => {
   return (
@@ -23,6 +28,8 @@ const App = () => {
             <Route path="/dashboard" exact element={<Home />} />
             <Route path="/income" exact element={<Income />} />
             <Route path="/expense" exact element={<Expense />} />
+            <Route path='/pricing' exact element={<PricingPage/>}/>
+            <Route path='/subscription/checkout' exact element={<CheckoutPage/>}/>
           </Routes>
         </Router>
 
