@@ -16,11 +16,10 @@ const CheckoutPage = () => {
         "Connect your bank",
         "Track GST and VAT",
         "Insights & reports",
-        "Progress invoicing",
-        "Up to 250 items in Chart of Accounts",
-        "For one user, plus your accountant"
+        "Progress invoicing"
       ],
       price: 9.50,
+      //priceId: price_1RLoaH2cJaDtHw4WkfTf1PmQ,
       discountedPrice: 19,
       annualPrice: 102.50,
       annualDiscount: 103.00,
@@ -39,9 +38,10 @@ const CheckoutPage = () => {
         "Multi-currency"
       ],
       price: 28.80,
+      //priceId : price_1RLoke2cJaDtHw4WtLSTFhGp,
       discountedPrice: 28.80, 
       annualPrice: 345.60,   
-      annualDiscount: 103.00, 
+      annualDiscount: 157.00, 
       discountText: "You're saving US$42"
     }
   };

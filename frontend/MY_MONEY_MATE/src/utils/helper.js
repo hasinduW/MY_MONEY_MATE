@@ -14,7 +14,6 @@ export const prepareExpenseBarChartData = (data = []) => {
   return chartData;
 };
 
-
 export const prepareExpenseLineChartData = (data = []) => {
   const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
 
@@ -25,4 +24,9 @@ export const prepareExpenseLineChartData = (data = []) => {
   }));
 
   return chartData;
+};
+
+export const addThousandsSeparator = (num) => {
+  if (typeof num !== "number") return num;
+  return num.toLocaleString();
 };

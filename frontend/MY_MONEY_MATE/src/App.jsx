@@ -1,4 +1,5 @@
 import React from "react";
+import UserProvider from "./context/UserContext";
 import {
   BrowserRouter as Router,
   Routes,
@@ -15,6 +16,7 @@ import { Toaster } from "react-hot-toast";
 import PricingPage from './pages/subscription/PricingPage';
 import './styles/pricing.css';
 import CheckoutPage from './pages/subscription/CheckoutPage';
+import Success from "./pages/subscription/Success";
 
 const App = () => {
   return (
@@ -23,13 +25,14 @@ const App = () => {
         <Router>
           <Routes>
             <Route path="/" element={<Root />} />
-            <Route path="/login" exact element={<Login />} />
-            <Route path="/signup" exact element={<SignUp />} />
-            <Route path="/dashboard" exact element={<Home />} />
-            <Route path="/income" exact element={<Income />} />
-            <Route path="/expense" exact element={<Expense />} />
-            <Route path='/pricing' exact element={<PricingPage/>}/>
-            <Route path='/subscription/checkout' exact element={<CheckoutPage/>}/>
+            <Route path="/login"  element={<Login />} />
+            <Route path="/signup"  element={<SignUp />} />
+            <Route path="/dashboard"  element={<Home />} />
+            <Route path="/income"  element={<Income />} />
+            <Route path="/expense"  element={<Expense />} />
+            <Route path='/pricing'  element={<PricingPage/>}/>
+            <Route path='/subscription/checkout'  element={<CheckoutPage/>}/>
+            <Route path='/success'  element={<Success/>}/>
           </Routes>
         </Router>
 
@@ -46,7 +49,6 @@ const App = () => {
     </div>
   );
 };
-
 
 export default App;
 
