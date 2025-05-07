@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/pricing.css';
+const apiURL = "http://localhost:5000";  
+
+//const [isLoading, setIsLoading] = useState(false);
 
 const CheckoutPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const plans = {
     simple: {
@@ -19,7 +24,7 @@ const CheckoutPage = () => {
         "Progress invoicing"
       ],
       price: 9.50,
-      //priceId: price_1RLoaH2cJaDtHw4WkfTf1PmQ,
+      priceId: 'price_1RLoaH2cJaDtHw4WkfTf1PmQ',
       discountedPrice: 19,
       annualPrice: 102.50,
       annualDiscount: 103.00,
@@ -38,7 +43,7 @@ const CheckoutPage = () => {
         "Multi-currency"
       ],
       price: 28.80,
-      //priceId : price_1RLoke2cJaDtHw4WtLSTFhGp,
+      priceId :'price_1RLoke2cJaDtHw4WtLSTFhGp',
       discountedPrice: 28.80, 
       annualPrice: 345.60,   
       annualDiscount: 157.00, 
@@ -52,6 +57,28 @@ const CheckoutPage = () => {
 
   if (!selectedPlan) {
     return <div>No plan selected. Please go back and select a plan.</div>;
+  }
+      
+  const handleSubscribe = async (priceID)=>{
+    setIsLoading(true);
+    try{
+      const response = await fetch (`${apiURL}/create-checkout-session`,{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+        },
+        body:JSON.stringify({priceID})
+      })
+
+      const session = await response.json()
+      window.location.href =  session.url;
+    }
+    catch(error){
+      console.log("Error".error)
+    }
+    finally{
+      setIsLoading(false);
+    }
   }
 
   const handleSubmit = (e) => {
@@ -180,8 +207,10 @@ const CheckoutPage = () => {
               <span>Subtotal</span>
               <span>US${billingPeriod === 'monthly' ? selectedPlan.discountedPrice : selectedPlan.annualPrice}</span>
             </div>
-            <button type="button" className="continue-btn" onClick={handleSubmit}>
+            <button type="button" className="continue-btn" onClick={() => handleSubscribe(selectedPlan.priceId)}
+              disabled={isLoading}>
               Continue
+          
             </button>
           </div>
 

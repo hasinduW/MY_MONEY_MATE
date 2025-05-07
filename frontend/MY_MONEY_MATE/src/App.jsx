@@ -6,6 +6,7 @@ import {
   Route,
   Navigate
 } from "react-router-dom";
+import { API_URL } from "/src/utils/api.js";
 
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
