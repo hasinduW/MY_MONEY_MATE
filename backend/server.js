@@ -1,14 +1,17 @@
-require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 const incomeRoutes = require("./routes/incomeRoutes");
 const expenseRoutes = require("./routes/expenseRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes");
-const planRoutes = require("./routes/planRoutes")
+const planRoutes = require("./routes/planRoutes");
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
-const path = require("path");
+
+require("dotenv").config();
+
 
 const app = express();
 
@@ -34,8 +37,10 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/v1/income", incomeRoutes); 
 app.use("/api/v1/expense", expenseRoutes);
+app.use("/api/users", require("./routes/authRoutes"));
 app.use('/api/plans',planRoutes);
 app.use('/api/subscribe',subscriptionRoutes);
+
 
 // Serve the upload folder as static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
