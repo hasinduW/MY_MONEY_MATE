@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/pricing.css';
-const apiURL = "http://localhost:3000";  
+const apiURL = "http://localhost:5000";  
 
 //const [isLoading, setIsLoading] = useState(false);
 
