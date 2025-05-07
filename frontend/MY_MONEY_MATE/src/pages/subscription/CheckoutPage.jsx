@@ -210,7 +210,7 @@ const CheckoutPage = () => {
             <button type="button" className="continue-btn" onClick={() => handleSubscribe(selectedPlan.priceId)}
               disabled={isLoading}>
               Continue
-              {isLoading ? 'Processing.....' : 'Continue'}
+          
             </button>
           </div>
 
