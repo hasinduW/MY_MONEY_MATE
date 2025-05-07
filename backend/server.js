@@ -12,6 +12,8 @@ const path = require("path");
 
 const app = express();
 
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
 //Middleware to handle CORS
 app.use(
     cors({
@@ -47,12 +49,33 @@ app.use(cors({
 app.get('/',(req, res)=>{
     res.send('Financial plan selection API')
 })
-
     
 app.get('/',(req, res)=>{
     res.json('message : "Stripe backend')
 })
 
+app.post('create-checkout-session',async(req,res)=>{
+    try{
+        const{priceID} = req.body;
+
+        await stripe.checkout.session.create({
+            mode: 'subscription',
+            payment_methid_types:['card'],
+            line_items:[{
+                price:priceID,
+                quantity:1,
+            }
+        ],
+        success_url:'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url: 'http://localhost:3000/cancel'
+        })
+        res.json({url:sessionStorage.url})
+    }
+    catch(error){
+        console.log('Error:',error);
+        res.status(500).json({error:error.message})
+    }
+})
 // Server listening on a specific port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

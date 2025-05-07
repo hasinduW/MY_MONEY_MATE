@@ -11,6 +11,7 @@ const PricingPage = () => {
       price: "9",
       decimal: "50",
       discount: "10",
+      priceID:"price_1RLoaH2cJaDtHw4WkfTf1PmQ",
       features: [
         "Track income & expenses",
         "Send unlimited custom invoices & quotes",
@@ -25,6 +26,7 @@ const PricingPage = () => {
       price: "14",
       decimal: "80",
       discount: "14",
+      priceID: "price_1RLoke2cJaDtHw4WtLSTFhGp",
       features: [
         "Track income & expenses",
         "Send unlimited custom invoices & quotes",
