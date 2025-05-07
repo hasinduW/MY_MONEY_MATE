@@ -22,7 +22,6 @@ app.use(
     })
 );
 
-
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true })); // ✅ Parses URL-encoded data
@@ -33,7 +32,7 @@ connectDB();
 // ✅ Correct Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/dashboard", dashboardRoutes);
-app.use("/api/v1/income", incomeRoutes); // ✅ FIXED: Correct income routes
+app.use("/api/v1/income", incomeRoutes); 
 app.use("/api/v1/expense", expenseRoutes);
 app.use('/api/plans',planRoutes);
 app.use('/api/subscribe',subscriptionRoutes);
@@ -47,6 +46,11 @@ app.use(cors({
     
 app.get('/',(req, res)=>{
     res.send('Financial plan selection API')
+})
+
+    
+app.get('/',(req, res)=>{
+    res.json('message : "Stripe backend')
 })
 
 // Server listening on a specific port
