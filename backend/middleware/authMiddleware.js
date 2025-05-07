@@ -14,3 +14,5 @@ exports.protect = async (req, res, next)=>{
         res.status(401).json({message:"Not authorizzed,token failed"});
     }
 };
+
+exports.admin = (req, res, next) => { };
