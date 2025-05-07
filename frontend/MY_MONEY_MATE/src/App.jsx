@@ -17,6 +17,7 @@ import PricingPage from './pages/subscription/PricingPage';
 import './styles/pricing.css';
 import CheckoutPage from './pages/subscription/CheckoutPage';
 import Success from "./pages/subscription/Success";
+import Cancel from "./pages/subscription/Cancel";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
             <Route path='/pricing'  element={<PricingPage/>}/>
             <Route path='/subscription/checkout'  element={<CheckoutPage/>}/>
             <Route path='/success'  element={<Success/>}/>
+            <Route path= '/cancel'  element={<Cancel/>}/>
           </Routes>
         </Router>
 
