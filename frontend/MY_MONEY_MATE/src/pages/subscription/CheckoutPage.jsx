@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/pricing.css';
 const apiURL = "http://localhost:3000";  
 
-const [isLoading, setIsLoading] = useState(false);
+//const [isLoading, setIsLoading] = useState(false);
 
 const CheckoutPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const plans = {
     simple: {
