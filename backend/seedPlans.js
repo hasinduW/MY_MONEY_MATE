@@ -21,7 +21,7 @@ const plans = [
       'Track GST and VAT',
       'Insights & reports',
       'Progress invoicing',
-      'Up to 250 items in Chart of Accounts'
+      
     ],
     users: 'For one user, plus your accountant',
     annualPrice:205,

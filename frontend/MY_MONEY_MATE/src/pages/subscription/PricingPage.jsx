@@ -5,6 +5,7 @@ import '../../styles/pricing.css';
 import { useNavigate } from 'react-router-dom';
 
 const PricingPage = () => {
+  
   const [plans, setPlans] = useState([{
       name: "Simple ",
       price: "9",

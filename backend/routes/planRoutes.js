@@ -9,6 +9,7 @@ const {
 } = require('../controllers/planController');
 
 const { protect, admin } = require('../middleware/authMiddleware');
+console.log( admin);
 
 // Public routes (no authentication needed for viewing plans)
 router.get('/', getPlans);
