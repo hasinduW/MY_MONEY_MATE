@@ -9,8 +9,9 @@ const apiURL = "http://localhost:5000";
 const CheckoutPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-
+  const [error, setError] = useState(null); 
   const [isLoading, setIsLoading] = useState(false);
+  const [businessLocation, setBusinessLocation] = useState('');
 
   const plans = {
     simple: {
@@ -25,6 +26,7 @@ const CheckoutPage = () => {
       ],
       price: 9.50,
       priceId: 'price_1RLoaH2cJaDtHw4WkfTf1PmQ',
+      annualPriceId : 'price_1RMLWO2cJaDtHw4W2shzQLda',
       discountedPrice: 19,
       annualPrice: 102.50,
       annualDiscount: 103.00,
@@ -44,6 +46,7 @@ const CheckoutPage = () => {
       ],
       price: 28.80,
       priceId :'price_1RLoke2cJaDtHw4WtLSTFhGp',
+      annualPriceId : 'price_1RMLYY2cJaDtHw4WoT13zm72',
       discountedPrice: 28.80, 
       annualPrice: 345.60,   
       annualDiscount: 157.00, 
@@ -52,29 +55,48 @@ const CheckoutPage = () => {
   };
 
   const selectedPlan = state?.selectedPlan ? plans[state.selectedPlan.name.toLowerCase()] || plans.simple : plans.simple;  const [billingPeriod, setBillingPeriod] = useState('monthly');
-  const [businessLocation, setBusinessLocation] = useState('');
 
 
   if (!selectedPlan) {
     return <div>No plan selected. Please go back and select a plan.</div>;
   }
       
-  const handleSubscribe = async (priceID)=>{
+  const handleSubscribe = async (priceID, annualPriceId)=>{
+    if (!businessLocation.trim()) {
+      setError('Please enter your business location');
+      return;
+    }
+
     setIsLoading(true);
+    setError(null);
+
     try{
+      const priceID = billingPeriod === 'monthly' ? 
+        selectedPlan.priceId : 
+        selectedPlan.annualPriceId;
+
       const response = await fetch (`${apiURL}/create-checkout-session`,{
         method:'POST',
         headers:{
           'Content-Type':'application/json',
         },
-        body:JSON.stringify({priceID})
+        body:JSON.stringify({
+          plan: selectedPlan.name,
+          priceID,
+          businessLocation,
+          billingPeriod})
       })
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
 
       const session = await response.json()
       window.location.href =  session.url;
     }
     catch(error){
-      console.log("Error".error)
+      console.log("Error".error);
+      setError('Failed to proceed to payment. Please try again.');
     }
     finally{
       setIsLoading(false);
@@ -128,6 +150,7 @@ const CheckoutPage = () => {
                   placeholder="eg: Sri Lanka"
                 />
               </div>
+              {error && <div className="error-message">{error}</div>}
             </div>
       
             <div className="subscription-section">
@@ -209,8 +232,13 @@ const CheckoutPage = () => {
             </div>
             <button type="button" className="continue-btn" onClick={() => handleSubscribe(selectedPlan.priceId)}
               disabled={isLoading}>
-              Continue
-          
+                {isLoading ? (
+                <>
+                  <span className="spinner"></span> Processing...
+                </>
+              ) : (
+              'Continue'
+              )}
             </button>
           </div>
 

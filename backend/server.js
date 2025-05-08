@@ -66,6 +66,7 @@ app.post('create-checkout-session',async(req,res)=>{
                 quantity:1,
             }
         ],
+        mode: 'subscription',
         success_url:'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
         cancel_url: 'http://localhost:3000/cancel'
         })
