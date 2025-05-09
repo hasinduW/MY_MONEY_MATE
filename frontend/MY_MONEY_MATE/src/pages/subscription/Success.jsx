@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import '../../styles/PaymentSuccess.css';
+import { useNavigate } from 'react-router-dom';
+
+const apiURL = "http://localhost:8000"; 
 
 const PaymentSuccess = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('Navigation object:', navigate);
+    const queryParams = new URLSearchParams(window.location.search);
+    console.log('Session ID:', queryParams.get('session_id'));
+  }, [navigate]);
+  
   return (
     <div className="payment-success-container">
       <div className="payment-success-card">
@@ -18,7 +29,7 @@ const PaymentSuccess = () => {
           Thank you for your subscription. You now have access<br />
           to all the amazing features!
         </p>
-        <button className="payment-success-button">
+        <button className="payment-success-button" onClick={() => navigate("/dashboard")} >
           Back to Main
         </button>
       </div>
