@@ -3,6 +3,7 @@ import PricingCard from "../../components/PricingCard.jsx";
 import { getPlans } from "../../utils/api.js";
 import '../../styles/pricing.css';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from "../../utils/apiPaths.js";
 
 const PricingPage = () => {
   
@@ -44,8 +45,8 @@ const PricingPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   
-
-  const handleSelectedPlan = (plans) => {
+  const handleSelectedPlan = (plan) => {
+    navigate('/checkout', { state: { selectedPlan: plan } });
   };
 
   /*if (loading) return <div>Loading...</div>;*/

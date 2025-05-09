@@ -13,11 +13,10 @@ const path = require("path");
 const app = express();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-
 //Middleware to handle CORS
 app.use(
     cors({
-        origin: process.env.CLIENT_URL || "*",
+        origin: process.env.CLIENT_URL || "http://localhost:5173",
         methods:["GET", "POST", "PUT", "DELETE"],
         allowedHeaders:["Content-Type", "Authorization"],
 
@@ -44,39 +43,42 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(cors({ 
     origin: "http://localhost:5173" ,
-    methods:["GETS"]}));
+    methods:["POST]}"],
+    allowedHeaders: ['Content-Type']}));
     
-app.get('/',(req, res)=>{
-    res.send('Financial plan selection API')
-})
-    
-app.get('/',(req, res)=>{
-    res.json('message : "Stripe backend')
+
+app.get('/', (req, res) => {
+    res.json({
+        message1: "Financial plan selection API",
+        message2: "Stripe backend"
+    });
 })
 
-app.post('create-checkout-session',async(req,res)=>{
+app.post('/create-checkout-session',async(req,res)=>{
     try{
         const{priceID} = req.body;
-
-        await stripe.checkout.session.create({
-            mode: 'subscription',
-            payment_methid_types:['card'],
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types:['card'],
             line_items:[{
                 price:priceID,
                 quantity:1,
             }
         ],
         mode: 'subscription',
-        success_url:'http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url: 'http://localhost:3000/cancel'
+        success_url:'http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url: 'http://localhost:5173/cancel'
         })
-        res.json({url:sessionStorage.url})
+        console.log('Error:', session);
+        res.json({url:session.url})
     }
     catch(error){
-        console.log('Error:',error);
-        res.status(500).json({error:error.message})
+        console.log('Error:', error);
+        res.status(500).json({error : error.message})
     }
 })
+
 // Server listening on a specific port
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+     console.log(`Server running at http://localhost:${PORT}`)
+});

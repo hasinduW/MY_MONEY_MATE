@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/pricing.css';
-const apiURL = "http://localhost:5000";  
+const BASE_URL = "http://localhost:8000";  
 
 //const [isLoading, setIsLoading] = useState(false);
 
@@ -61,49 +61,46 @@ const CheckoutPage = () => {
     return <div>No plan selected. Please go back and select a plan.</div>;
   }
       
-  const handleSubscribe = async (priceID, annualPriceId)=>{
+  const handleSubscribe = async ()=>{
+    console.log("handleSubscribe clicked");
     if (!businessLocation.trim()) {
-      setError('Please enter your business location');
-      return;
+      setError("Please enter your business location");
+      //return;
     }
-
     setIsLoading(true);
     setError(null);
-
+    console.log("start try");
     try{
       const priceID = billingPeriod === 'monthly' ? 
         selectedPlan.priceId : 
         selectedPlan.annualPriceId;
 
-      const response = await fetch (`${apiURL}/create-checkout-session`,{
+      const response = await fetch ("http://localhost:8000/create-checkout-session",{
         method:'POST',
         headers:{
           'Content-Type':'application/json',
         },
-        body:JSON.stringify({
-          plan: selectedPlan.name,
-          priceID,
-          businessLocation,
-          billingPeriod})
+        body:JSON.stringify({priceID:priceID})
       })
-
       if (!response.ok) {
+        console.log('not ok');
         throw new Error('Failed to create checkout session');
       }
-
-      const session = await response.json()
-      window.location.href =  session.url;
+      const {url} = await response.json();
+      console.log(url);
+      window.location.href =  url;
     }
     catch(error){
-      console.log("Error".error);
       setError('Failed to proceed to payment. Please try again.');
+      console.log("Error:",error);
+
     }
     finally{
       setIsLoading(false);
     }
   }
 
-  const handleSubmit = (e) => {
+  {/*const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission and payment processing
     console.log({
@@ -111,7 +108,7 @@ const CheckoutPage = () => {
       billingPeriod,
       businessLocation
     });
-  };
+  };*/}
 
   return (
     <div className="checkout-container">
@@ -230,15 +227,12 @@ const CheckoutPage = () => {
               <span>Subtotal</span>
               <span>US${billingPeriod === 'monthly' ? selectedPlan.discountedPrice : selectedPlan.annualPrice}</span>
             </div>
-            <button type="button" className="continue-btn" onClick={() => handleSubscribe(selectedPlan.priceId)}
-              disabled={isLoading}>
-                {isLoading ? (
-                <>
-                  <span className="spinner"></span> Processing...
-                </>
-              ) : (
-              'Continue'
-              )}
+            <button type="button" className="continue-btn" onClick={() => handleSubscribe()}
+              // disabled={isLoading || !businessLocation.trim()}
+              >
+                {isLoading ? "Processing..." : "Continue"} 
+
+                  
             </button>
           </div>
 
